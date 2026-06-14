@@ -1,0 +1,51 @@
+{
+  "model_name": "PhishGuard_v17",
+  "version": "17.0.0",
+  "research_group": "Research Group 04 | University of Kelaniya | 2025",
+  "architecture": "Conv1D_3x_DualPool_URLTokenised",
+  "max_tokens": 30000,
+  "max_sequence_length": 250,
+  "embed_dim": 128,
+  "optimal_threshold": 0.39,
+  "scoring_mode": "hybrid",
+  "hybrid_alpha": 0.3,
+  "model_input_dtype": "int32",
+  "model_input_shape": [
+    1,
+    250
+  ],
+  "model_output_shape": [
+    1,
+    1
+  ],
+  "output_meaning": "P(phishing) — sigmoid 0 to 1",
+  "label_map": {
+    "0": "නිරාපද (Legitimate)",
+    "1": "Phishing"
+  },
+  "training_sources": [
+    "url",
+    "sms",
+    "email"
+  ],
+  "training_balance": "strict_50_50_undersample",
+  "test_accuracy": 0.9490097894394232,
+  "test_f1": 0.9331056002627689,
+  "test_auc": 0.9880457629499751,
+  "vocab_file": "vocab.json",
+  "tflite_file": "combined_model.tflite",
+  "tflite_f16_file": "combined_model_f16.tflite",
+  "xai_rules_sinhala": {
+    "ip_url": "🔢 URL තුළ IP ලිපිනයක් (192.168.x.x ආකාරය) අඩංගු වේ. නිත්‍යානුකූල වෙබ් අඩවිවල domain නාම භාවිතා කෙරේ — මෙය ඉතා සැකසහිතයි.",
+    "brand_mimicry": "🏦 PayPal, Google, Amazon, Bank වැනි ප්‍රසිද්ධ ආයතනයක නමක් ව්‍යාජ ලෙස භාවිතා කර ඇත. ඔබේ රහස්‍ය තොරතුරු සොරා ගැනීමට සකස් කළ link/message.",
+    "url_shortener": "🔗 URL Shortener (bit.ly, tinyurl වැනි) භාවිතා කර නියම ගමනාන්තය සඟවා ඇත. Scammers ලා සැබෑ phishing site ගොනු කිරීමට මෙය භාවිතා කරයි.",
+    "suspicious_tld": "🌐 සැකසහිත domain extension (.tk, .xyz, .top, .click වැනි) භාවිතා කර ඇත. Phishing sites ලා බොහෝ දෙනා මෙවැනි domain extension භාවිතා කරයි.",
+    "insecure_link": "🔓 ආරක්ෂිත නොවන link (https:// නොමැත). ඔබ ඇතුල් කරන passwords සහ OTP intercept කිරීම පහසු වේ.",
+    "many_subdomains": "🌐 Subdomains 3+ ක් ඇත — නිත්‍යානුකූල site එකක් ලෙස පෙනී සිටීමට සාදා ගත් URL. නිදසුනක්: paypal.secure.verify.evil.com",
+    "urgency": "⏰ හදිසි (Urgency) වචන (urgent, immediately, suspended, blocked) භාවිතා කර ඇත. Scammers ලා ඔබව කලබලයට පත් කර ඉක්මනින් ක්‍රියා කරවීමට මෙය භාවිතා කරයි.",
+    "financial_bait": "💰 මූල්‍ය ලාභ 미끼 (prize, won, reward, congratulations) ගෙනහැර ඇත. ත්‍යාග ලාභ කරවීමේ නාමයෙන් bank credentials සොරා ගැනීමේ උත්සාහයකි.",
+    "many_urls": "🔗 URLs 3+ ක් හඳුනාගන්නා ලදී — phishing messages වල bogus redirect links බොහෝ ගණනක් ඇතුළත් කෙරේ.",
+    "ai_detected": "🤖 AI model ලා statistical text patterns භාවිතා කර phishing ලෙස හඳුනාගන්නා ලදී. මෙම message ලා known phishing training data සමඟ දැඩි ලෙස ගැළපේ."
+  },
+  "android_note": "1) URL TOKENISATION: Text is preprocessed with URL punctuation split into spaces (paypal.com/login becomes paypal com login). Android must apply same preprocessing. 2) CRITICAL: Read files with UTF-8 encoding for Sinhala Unicode support. InputStreamReader(assets.open(file), StandardCharsets.UTF_8). 2) Read vocab.json -> Map<String,Integer> token_map. 3) Lowercase + whitespace-split input text. 4) Map each token to index (1=[UNK]). 5) Pad/truncate to max_sequence_length with 0s. 6) Pass int32[1,max_sequence_length] to TFLite. 7) Output float32[1,1] >= optimal_threshold -> Phishing."
+}

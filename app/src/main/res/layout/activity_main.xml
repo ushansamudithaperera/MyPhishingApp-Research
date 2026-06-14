@@ -1,0 +1,1048 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    activity_main.xml — PhishGuard v3.0
+    A/B Testing UI:
+      • Method toggle (A: Separate / B: Combined)
+      • Inference latency badge
+      • Benchmark mode button
+-->
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_primary"
+    android:fitsSystemWindows="true">
+
+    <!-- ═══ APP BAR ═══════════════════════════════════════════ -->
+    <com.google.android.material.appbar.AppBarLayout
+        android:id="@+id/appBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/bg_surface"
+        app:elevation="0dp">
+
+        <!-- Title row -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:orientation="horizontal"
+            android:gravity="center_vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🛡"
+                android:textSize="20sp"
+                android:layout_marginEnd="8dp"/>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="PhishGuard"
+                    android:textSize="17sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_primary"/>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="AI Phishing Detection"
+                    android:textSize="10sp"
+                    android:textColor="@color/text_muted"/>
+            </LinearLayout>
+
+            <!-- Status chip -->
+            <TextView
+                android:id="@+id/tvStatusChip"
+                android:layout_width="wrap_content"
+                android:layout_height="26dp"
+                android:text="● READY"
+                android:textSize="10sp"
+                android:textColor="@color/accent_green"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:background="@drawable/chip_ready_bg"/>
+        </LinearLayout>
+
+        <!-- ═══ METHOD SELECTOR (A/B Toggle) ═══════════════════ -->
+        <LinearLayout
+            android:id="@+id/layoutMethodSelector"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:background="#0D1421"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="10dp"
+            android:paddingBottom="10dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="RESEARCH MODE"
+                    android:textSize="9sp"
+                    android:textColor="#5A6A8A"
+                    android:letterSpacing="0.15"/>
+
+                <!-- Benchmark button -->
+                <Button
+                    android:id="@+id/btnBenchmark"
+                    android:layout_width="wrap_content"
+                    android:layout_height="28dp"
+                    android:text="⚡ BENCHMARK"
+                    android:textSize="9sp"
+                    android:textColor="#F39C12"
+                    android:background="@drawable/tag_bg"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    app:strokeColor="#F39C12"
+                    style="@style/Widget.MaterialComponents.Button.OutlinedButton"/>
+            </LinearLayout>
+
+            <!-- Toggle card -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:orientation="horizontal"
+                android:background="@drawable/card_info_bg"
+                android:padding="4dp">
+
+                <!-- Method A button -->
+                <TextView
+                    android:id="@+id/btnMethodA"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="A  Separate Models"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/bg_primary"
+                    android:background="@drawable/method_active_bg"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+                <!-- Method B button -->
+                <TextView
+                    android:id="@+id/btnMethodB"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="B  Combined Model"
+                    android:textSize="11sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/text_muted"
+                    android:background="@android:color/transparent"
+                    android:clickable="true"
+                    android:focusable="true"/>
+
+            </LinearLayout>
+
+            <!-- Method description -->
+            <TextView
+                android:id="@+id/tvMethodDesc"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="3 separate TFLite models — URL / SMS / Email specific"
+                android:textSize="10sp"
+                android:textColor="#5A6A8A"
+                android:layout_marginTop="6dp"/>
+        </LinearLayout>
+
+        <!-- Tabs -->
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/tabLayout"
+            android:layout_width="match_parent"
+            android:layout_height="46dp"
+            android:background="@color/bg_surface"
+            app:tabSelectedTextColor="@color/accent_red"
+            app:tabIndicatorColor="@color/accent_red"
+            app:tabIndicatorHeight="2dp"
+            app:tabTextAppearance="@style/TabTextStyle"
+            app:tabMode="fixed"
+            app:tabGravity="fill">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔗 URL"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="💬 SMS"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📧 Email"/>
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📷 QR"/>
+        </com.google.android.material.tabs.TabLayout>
+
+    </com.google.android.material.appbar.AppBarLayout>
+
+    <!-- ═══ SCROLL CONTENT ════════════════════════════════════ -->
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- ─── TAB CONTENT ────────────────────────────── -->
+            <FrameLayout
+                android:id="@+id/tabContentContainer"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <!-- URL tab -->
+                <LinearLayout
+                    android:id="@+id/tabUrl"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="URL SCANNER"
+                        android:textSize="9sp"
+                        android:textColor="@color/accent_red"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilUrl"
+                        style="@style/PhishInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="https://example.com"
+                        app:startIconDrawable="@drawable/ic_link"
+                        app:errorEnabled="true">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etUrl"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textUri"
+                            android:singleLine="true"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnScanUrl"
+                        style="@style/PhishButton.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:text="SCAN URL"
+                        android:letterSpacing="0.08"/>
+                </LinearLayout>
+
+                <!-- SMS tab -->
+                <LinearLayout
+                    android:id="@+id/tabSms"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="SMS CONTEXT CHECKER"
+                        android:textSize="9sp"
+                        android:textColor="@color/accent_red"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilSms"
+                        style="@style/PhishInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Paste SMS message here..."
+                        app:startIconDrawable="@drawable/ic_sms"
+                        app:errorEnabled="true"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="500">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etSms"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:minLines="3"
+                            android:maxLines="6"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13sp"
+                            android:gravity="top"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:id="@+id/layoutSmsUrlPreview"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/card_info_bg"
+                        android:padding="10dp"
+                        android:layout_marginTop="6dp"
+                        android:gravity="center_vertical"
+                        android:visibility="gone">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔗"
+                            android:textSize="13sp"
+                            android:layout_marginEnd="6dp"/>
+                        <TextView
+                            android:id="@+id/tvSmsExtractedUrl"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/accent_blue"
+                            android:textSize="11sp"
+                            android:maxLines="1"
+                            android:ellipsize="end"/>
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/btnScanSms"
+                        style="@style/PhishButton.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:text="ANALYSE SMS"
+                        android:letterSpacing="0.08"/>
+                </LinearLayout>
+
+                <!-- Email tab -->
+                <LinearLayout
+                    android:id="@+id/tabEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="EMAIL CONTEXT CHECKER"
+                        android:textSize="9sp"
+                        android:textColor="@color/accent_red"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="8dp"/>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmailSender"
+                        style="@style/PhishInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:hint="Sender email (optional)"
+                        app:startIconDrawable="@drawable/ic_email"
+                        app:errorEnabled="true">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmailSender"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textEmailAddress"
+                            android:singleLine="true"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13sp"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:id="@+id/tilEmailBody"
+                        style="@style/PhishInputLayout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:hint="Paste email body here..."
+                        app:startIconDrawable="@drawable/ic_body"
+                        app:errorEnabled="true"
+                        app:counterEnabled="true"
+                        app:counterMaxLength="1000">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/etEmailBody"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:inputType="textMultiLine"
+                            android:minLines="4"
+                            android:maxLines="8"
+                            android:textColor="@color/text_primary"
+                            android:textSize="13sp"
+                            android:gravity="top"/>
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <Button
+                        android:id="@+id/btnScanEmail"
+                        style="@style/PhishButton.Primary"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="10dp"
+                        android:text="ANALYSE EMAIL"
+                        android:letterSpacing="0.08"/>
+                </LinearLayout>
+
+                <!-- QR tab -->
+                <LinearLayout
+                    android:id="@+id/tabQr"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center_horizontal"
+                    android:visibility="gone">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="QR CODE SCANNER"
+                        android:textSize="9sp"
+                        android:textColor="@color/accent_red"
+                        android:letterSpacing="0.15"
+                        android:layout_marginBottom="12dp"/>
+
+                    <FrameLayout
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:background="@drawable/qr_frame_bg"
+                        android:layout_marginBottom="12dp">
+                        <TextView
+                            android:id="@+id/tvQrPlaceholder"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:gravity="center"
+                            android:text="📷"
+                            android:textSize="44sp"/>
+                    </FrameLayout>
+
+                    <TextView
+                        android:id="@+id/tvQrStatus"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Point camera at QR code"
+                        android:textColor="@color/text_muted"
+                        android:textSize="12sp"
+                        android:layout_marginBottom="12dp"/>
+
+                    <LinearLayout
+                        android:id="@+id/layoutQrResult"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@drawable/card_info_bg"
+                        android:padding="10dp"
+                        android:layout_marginBottom="10dp"
+                        android:gravity="center_vertical"
+                        android:visibility="gone">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🔗"
+                            android:textSize="14sp"
+                            android:layout_marginEnd="8dp"/>
+                        <TextView
+                            android:id="@+id/tvQrScannedUrl"
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/accent_blue"
+                            android:textSize="12sp"
+                            android:maxLines="2"
+                            android:ellipsize="end"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:weightSum="2">
+                        <Button
+                            android:id="@+id/btnQrStart"
+                            style="@style/PhishButton.Secondary"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:layout_marginEnd="5dp"
+                            android:text="START SCAN"/>
+                        <Button
+                            android:id="@+id/btnQrScanNow"
+                            style="@style/PhishButton.Primary"
+                            android:layout_width="0dp"
+                            android:layout_height="50dp"
+                            android:layout_weight="1"
+                            android:layout_marginStart="5dp"
+                            android:text="SCAN URL"
+                            android:enabled="false"/>
+                    </LinearLayout>
+                </LinearLayout>
+
+            </FrameLayout>
+
+            <!-- Divider -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/divider"
+                android:layout_marginTop="18dp"
+                android:layout_marginBottom="18dp"/>
+
+            <!-- ─── RESULT SECTION ─────────────────────────── -->
+            <LinearLayout
+                android:id="@+id/layoutResultSection"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="THREAT ANALYSIS"
+                    android:textSize="9sp"
+                    android:textColor="@color/text_muted"
+                    android:letterSpacing="0.15"
+                    android:layout_marginBottom="10dp"/>
+
+                <!-- Score card -->
+                <androidx.cardview.widget.CardView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/bg_surface"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginBottom="10dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="18dp"
+                        android:gravity="center_vertical">
+
+                        <!-- Circular gauge -->
+                        <FrameLayout
+                            android:layout_width="100dp"
+                            android:layout_height="100dp"
+                            android:layout_marginEnd="18dp">
+                            <com.example.myphishingapp.CircularProgressView
+                                android:id="@+id/circularProgress"
+                                android:layout_width="100dp"
+                                android:layout_height="100dp"/>
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:orientation="vertical"
+                                android:gravity="center">
+                                <TextView
+                                    android:id="@+id/tvScoreNumber"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="0"
+                                    android:textSize="26sp"
+                                    android:textStyle="bold"
+                                    android:textColor="@color/text_primary"/>
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="RISK"
+                                    android:textSize="8sp"
+                                    android:textColor="@color/text_muted"
+                                    android:letterSpacing="0.1"/>
+                            </LinearLayout>
+                        </FrameLayout>
+
+                        <!-- Verdict + metrics -->
+                        <LinearLayout
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:id="@+id/tvVerdict"
+                                android:layout_width="wrap_content"
+                                android:layout_height="30dp"
+                                android:text="ANALYSING..."
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/text_primary"
+                                android:gravity="center"
+                                android:paddingStart="12dp"
+                                android:paddingEnd="12dp"
+                                android:background="@drawable/verdict_badge_bg"
+                                android:layout_marginBottom="8dp"/>
+
+                            <!-- Method tag -->
+                            <TextView
+                                android:id="@+id/tvSourceTag"
+                                android:layout_width="wrap_content"
+                                android:layout_height="22dp"
+                                android:text="ML"
+                                android:textSize="9sp"
+                                android:textColor="@color/text_muted"
+                                android:gravity="center"
+                                android:paddingStart="7dp"
+                                android:paddingEnd="7dp"
+                                android:background="@drawable/tag_bg"
+                                android:layout_marginBottom="7dp"/>
+
+                            <!-- Scanned target display -->
+                            <TextView
+                                android:id="@+id/tvScannedUrl"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                android:textSize="10sp"
+                                android:textColor="@color/text_muted"
+                                android:maxLines="2"
+                                android:ellipsize="middle"
+                                android:layout_marginBottom="7dp"/>
+
+                            <!-- ══ PERFORMANCE METRICS CARD ══ -->
+                            <androidx.cardview.widget.CardView
+                                android:id="@+id/cardPerformance"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                app:cardBackgroundColor="#0A1428"
+                                app:cardCornerRadius="8dp"
+                                app:cardElevation="0dp">
+
+                                <LinearLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:orientation="vertical"
+                                    android:padding="8dp">
+
+                                    <LinearLayout
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:orientation="horizontal"
+                                        android:gravity="center_vertical"
+                                        android:layout_marginBottom="3dp">
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="⚡"
+                                            android:textSize="10sp"
+                                            android:layout_marginEnd="4dp"/>
+
+                                        <!-- Inference latency -->
+                                        <TextView
+                                            android:id="@+id/tvInferenceTime"
+                                            android:layout_width="0dp"
+                                            android:layout_height="wrap_content"
+                                            android:layout_weight="1"
+                                            android:text="Inference: —"
+                                            android:textSize="10sp"
+                                            android:textColor="#4A9EFF"
+                                            android:textStyle="bold"/>
+                                    </LinearLayout>
+
+                                    <!-- Total latency -->
+                                    <TextView
+                                        android:id="@+id/tvTotalTime"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Total: —"
+                                        android:textSize="9sp"
+                                        android:textColor="@color/text_muted"
+                                        android:layout_marginBottom="3dp"/>
+
+                                    <!-- Method used label -->
+                                    <TextView
+                                        android:id="@+id/tvMethodUsed"
+                                        android:layout_width="match_parent"
+                                        android:layout_height="wrap_content"
+                                        android:text="Method A | phishing_model.tflite"
+                                        android:textSize="9sp"
+                                        android:textColor="#3A4A5A"/>
+                                </LinearLayout>
+                            </androidx.cardview.widget.CardView>
+
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Loading -->
+                <LinearLayout
+                    android:id="@+id/layoutLoading"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:gravity="center"
+                    android:padding="14dp"
+                    android:visibility="gone">
+                    <ProgressBar
+                        android:layout_width="22dp"
+                        android:layout_height="22dp"
+                        android:indeterminateTint="@color/accent_red"
+                        android:layout_marginEnd="10dp"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Analysing threat..."
+                        android:textColor="@color/text_muted"
+                        android:textSize="12sp"/>
+                </LinearLayout>
+
+                <!-- ══ BENCHMARK COMPARISON CARD ══════════════ -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardBenchmark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="#060E1C"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="BENCHMARK COMPARISON"
+                            android:textSize="9sp"
+                            android:textColor="#F39C12"
+                            android:letterSpacing="0.12"
+                            android:layout_marginBottom="10dp"/>
+
+                        <!-- Method A row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="6dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="A"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:textColor="#E8394A"
+                                android:background="@drawable/tag_bg"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:gravity="center"
+                                android:layout_marginEnd="10dp"/>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvBenchmarkALabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Separate Models"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_primary"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:id="@+id/tvBenchmarkATime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="—"
+                                    android:textSize="10sp"
+                                    android:textColor="#4A9EFF"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvBenchmarkAVerdict"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                android:textSize="11sp"
+                                android:textColor="@color/text_muted"/>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="1dp"
+                            android:background="@color/divider"
+                            android:layout_marginBottom="6dp"/>
+
+                        <!-- Method B row -->
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:layout_marginBottom="10dp">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="B"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:textColor="#3498DB"
+                                android:background="@drawable/tag_bg"
+                                android:paddingStart="8dp"
+                                android:paddingEnd="8dp"
+                                android:gravity="center"
+                                android:layout_marginEnd="10dp"/>
+
+                            <LinearLayout
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+
+                                <TextView
+                                    android:id="@+id/tvBenchmarkBLabel"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="Combined Model"
+                                    android:textSize="11sp"
+                                    android:textColor="@color/text_primary"
+                                    android:textStyle="bold"/>
+
+                                <TextView
+                                    android:id="@+id/tvBenchmarkBTime"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:text="—"
+                                    android:textSize="10sp"
+                                    android:textColor="#4A9EFF"/>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tvBenchmarkBVerdict"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="—"
+                                android:textSize="11sp"
+                                android:textColor="@color/text_muted"/>
+                        </LinearLayout>
+
+                        <!-- Winner row -->
+                        <LinearLayout
+                            android:id="@+id/layoutBenchmarkWinner"
+                            android:layout_width="match_parent"
+                            android:layout_height="36dp"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:background="@drawable/card_info_bg"
+                            android:paddingStart="10dp"
+                            android:paddingEnd="10dp"
+                            android:visibility="gone">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="⚡ Faster: "
+                                android:textSize="11sp"
+                                android:textColor="@color/text_muted"
+                                android:layout_marginEnd="4dp"/>
+
+                            <TextView
+                                android:id="@+id/tvBenchmarkWinner"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="—"
+                                android:textSize="11sp"
+                                android:textStyle="bold"
+                                android:textColor="#F39C12"/>
+
+                            <TextView
+                                android:id="@+id/tvBenchmarkDiff"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textSize="10sp"
+                                android:textColor="@color/text_muted"/>
+                        </LinearLayout>
+
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- XAI card -->
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardXai"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/bg_xai"
+                    app:cardCornerRadius="14dp"
+                    app:cardElevation="4dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="14dp">
+
+                        <LinearLayout
+                            android:id="@+id/layoutXaiHeader"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:gravity="center_vertical"
+                            android:clickable="true"
+                            android:focusable="true"
+                            android:background="?attr/selectableItemBackground">
+
+                            <TextView
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="AI විග්‍රහය (Explanation)"
+                                android:textSize="12sp"
+                                android:textStyle="bold"
+                                android:textColor="@color/accent_orange"/>
+
+                            <ImageButton
+                                android:id="@+id/btnTts"
+                                android:layout_width="34dp"
+                                android:layout_height="34dp"
+                                android:src="@drawable/ic_volume"
+                                android:background="@drawable/icon_btn_bg"
+                                android:contentDescription="Read aloud"
+                                android:layout_marginEnd="6dp"
+                                app:tint="@color/text_muted"/>
+
+                            <ImageView
+                                android:id="@+id/ivXaiChevron"
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/ic_chevron_down"
+                                app:tint="@color/text_muted"/>
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:id="@+id/layoutXaiContent"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="vertical"
+                            android:layout_marginTop="10dp">
+
+                            <TextView
+                                android:id="@+id/tvXaiReasons"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:text=""
+                                android:textSize="12sp"
+                                android:textColor="@color/text_secondary"
+                                android:lineSpacingMultiplier="1.6"/>
+                        </LinearLayout>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+                <!-- Action buttons -->
+                <LinearLayout
+                    android:id="@+id/layoutActionButtons"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:layout_marginBottom="8dp"
+                    android:visibility="gone">
+
+                    <Button
+                        android:id="@+id/btnAllow"
+                        style="@style/PhishButton.Allow"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:layout_marginEnd="5dp"
+                        android:text="✓  ALLOW"/>
+
+                    <Button
+                        android:id="@+id/btnBlock"
+                        style="@style/PhishButton.Block"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_weight="1"
+                        android:layout_marginStart="5dp"
+                        android:text="✕  BLOCK"/>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/btnActiveDefense"
+                    style="@style/PhishButton.Defense"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginBottom="8dp"
+                    android:text="⚡  LAUNCH ACTIVE DEFENSE"
+                    android:visibility="gone"/>
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/cardDefenseResult"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    app:cardBackgroundColor="@color/bg_defense"
+                    app:cardCornerRadius="10dp"
+                    app:cardElevation="2dp"
+                    android:layout_marginBottom="10dp"
+                    android:visibility="gone">
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="DEFENSE ACTIVE"
+                            android:textSize="9sp"
+                            android:textColor="@color/accent_orange"
+                            android:letterSpacing="0.12"
+                            android:layout_marginBottom="5dp"/>
+                        <TextView
+                            android:id="@+id/tvDefenseResult"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:textColor="@color/text_secondary"
+                            android:textSize="12sp"
+                            android:lineSpacingMultiplier="1.5"/>
+                    </LinearLayout>
+                </androidx.cardview.widget.CardView>
+
+            </LinearLayout>
+
+            <!-- Bottom padding -->
+            <View android:layout_width="match_parent" android:layout_height="28dp"/>
+
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

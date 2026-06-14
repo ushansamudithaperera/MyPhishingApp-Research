@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">MyPhishingApp</string>
+
+    <!-- Accessibility Service -->
+    <string name="accessibility_service_label">PhishGuard Link Scanner</string>
+    <string name="accessibility_service_description">WhatsApp, Telegram, Gmail messages monitor කර phishing links detect කරයි.</string>
+    <string name="accessibility_service_summary">Link detection for WhatsApp, Telegram, Gmail</string>
+</resources>

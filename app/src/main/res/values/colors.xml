@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Base -->
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+
+    <!-- App Backgrounds -->
+    <color name="bg_primary">#0A0A12</color>
+    <color name="bg_surface">#12121E</color>
+    <color name="bg_card">#1A1A28</color>
+    <color name="bg_input">#1E1E2E</color>
+    <color name="bg_xai">#16102A</color>
+    <color name="bg_defense">#1A1208</color>
+    <color name="divider">#2A2A3A</color>
+
+    <!-- Text -->
+    <color name="text_primary">#F0F0F8</color>
+    <color name="text_secondary">#C0C0D8</color>
+    <color name="text_muted">#606080</color>
+
+    <!-- Accents -->
+    <color name="accent_red">#E8394A</color>
+    <color name="accent_red_dark">#B02030</color>
+    <color name="accent_green">#2ECC71</color>
+    <color name="accent_green_dark">#1A8A4A</color>
+    <color name="accent_orange">#F39C12</color>
+    <color name="accent_blue">#3498DB</color>
+    <color name="accent_purple">#9B59B6</color>
+
+    <!-- Score colors -->
+    <color name="score_safe">#2ECC71</color>
+    <color name="score_medium">#F39C12</color>
+    <color name="score_danger">#E8394A</color>
+</resources>
